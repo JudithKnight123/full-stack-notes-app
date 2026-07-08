@@ -43,7 +43,17 @@ app.get("/data", (req, res) => {
   const data = readData();
   res.json(data);
 });
-
+// TODO: Handle PUT request to update data by ID
+app.put("/data/:id", (req, res) => {
+  const data = readData();
+  const index = data.findIndex((item) => item.id === req.params.id);
+  if (index === -1) {
+    return res.status(404).json({ message: "Data not found" });
+  }
+  data[index] = { ...data[index], ...req.body };
+  writeData(data);
+  res.json({ message: "Data updated successfully", data: data[index] });
+});
 // Handle POST request to save new data with a unique ID
 app.post("/data", (req, res) => {
   const newData = { id: uuidv4(), ...req.body };
