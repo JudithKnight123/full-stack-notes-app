@@ -54,6 +54,16 @@ app.put("/data/:id", (req, res) => {
   writeData(data);
   res.json({ message: "Data updated successfully", data: data[index] });
 });
+// TODO: Handle DELETE request to delete data by ID
+app.delete("/data/:id", (req, res) => {
+  const data = readData();
+  const index = data.findIndex((item) => item.id === req.params.id);
+  if (index === -1) {
+    return res.status(404).json({ message: "Data not found" });
+  }
+  data.splice(index, 1);
+  writeData(data);
+  res.json({ message: "Data deleted successfully" }); 
 // Handle POST request to save new data with a unique ID
 app.post("/data", (req, res) => {
   const newData = { id: uuidv4(), ...req.body };
