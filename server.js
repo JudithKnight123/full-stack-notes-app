@@ -64,6 +64,8 @@ app.delete("/data/:id", (req, res) => {
   data.splice(index, 1);
   writeData(data);
   res.json({ message: "Data deleted successfully" }); 
+  }); 
+
 // Handle POST request to save new data with a unique ID
 app.post("/data", (req, res) => {
   const newData = { id: uuidv4(), ...req.body };
