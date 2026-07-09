@@ -36,55 +36,50 @@ newLi.appendChild(clickButton); //put Button inside li
 
 }
 
-/**
- * ==========================================
- * METHOD 1: Fetch API (Modern, Native)
- * ==========================================
- * PROS: Built natively into modern browsers. No external weight or CDNs required. 
- * Returns clean Promises.
- * CONS: Does not automatically throw errors on 404/500 statuses (you must manually 
- * check response.ok). Requires a two-step process to extract the payload body.
- */
-function sendFetchRequest() {
-  fetch("http://localhost:3001/data")
-    .then((response) => {
-      // Fetch quirk: bad status codes (like 404) do NOT trigger .catch(). 
-      // You must handle them manually:
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+
+document.addEventListener("DOMContentLoaded", () => {
+  const dataList = document.getElementById("searches");
+  const dataInput = document.getElementById("saveTerm");
+  const saveButton = document.getElementById("saveButton");
+
+  // Function to fetch data from the backend
+  const fetchData = async () => {
+    try {
+      const response = await fetch("/data");
+      const data = await response.json();
+      dataList.innerHTML = ""; // Clear the list before rendering
+      data.forEach((item) => {
+        const li = document.createElement("li");
+        li.textContent = item.message;
+        // li.textContent = item.id + ": " + JSON.stringify(item);
+        dataList.appendChild(li);
+      });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  // Handle form submission to add new data
+  saveButton.addEventListener("click", async (event) => {
+    event.preventDefault();
+    const newData = { message: dataInput.value };
+
+    try {
+      const response = await fetch("/data", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newData),
+      });
+
+      if (response.ok) {
+        dataInput.value = ""; // Clear input field
+        fetchData(); // Refresh the list
       }
-      return response.json(); // Step 2: Unpack stream payload to JSON
-    })
-    .then((data) => console.log("Fetch API (Parsed Data):", data))
-    .catch((error) => console.error("Fetch error caught:", error));
-}
+    } catch (error) {
+      console.error("Error adding data:", error);
+    }
+  });
 
-
-// const renderRepos = (repos) => {
-//   const reposListEl = document.getElementById("searches");
-//   let html = "";
-
-//   //TODO what does this line do?
-//   repos.forEach((repo) => {
-//     const repoFullName = repo.message;
-
-//     html += `<li>${repoFullName}</li>`;
-//   });
-
-//   reposListEl.innerHTML = html;
-// };
-
-// sendFetchRequest();
-
-function sendAxiosRequest() {
-  axios
-    .get("https://jsonplaceholder.typicode.com/posts/1")
-    .then((response) => {
-      // Axios automatically parses JSON and places it inside the `.data` property
-      console.log("Axios (response.data):", response.data);
-    })
-    .catch((error) => {
-      // Catch handles both network errors AND 4xx/5xx responses automatically
-      console.error("Axios error caught:", error.message);
-    });
-}
+  // Fetch data on page load
+  fetchData();
+});
