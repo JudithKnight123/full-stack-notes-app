@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const dataInput = document.getElementById("saveTerm");
   const saveButton = document.getElementById("saveButton");
 
-    if (saveTerm === "") {
+    if (saveTerm.trim() === "") {
   alert("Please enter a task before adding it.");
   return;
 }
@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         li.textContent = item.message;
-        
+
         li.appendChild(clickButton);//put Button inside li
         dataList.appendChild(li);
       });
