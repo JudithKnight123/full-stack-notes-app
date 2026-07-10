@@ -26,5 +26,5 @@ To run this application locally, ensure you have [Node.js](https://nodejs.org/) 
 
 1. **Clone the repository:**
    ```bash
-   git clone [https://github.com/JudithKnight123/full-stack-notes-app](https://github.com/JudithKnight123/full-stack-notes-app)
+   git clone https://github.com/JudithKnight123/full-stack-notes-app
    ```
