@@ -3,12 +3,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const dataInput = document.getElementById("saveTerm");
   const saveButton = document.getElementById("saveButton");
 
-if (saveTerm === "") {
-  alert("Please enter a task before adding it.");
-  return;
-}
-
-
   // Function to fetch data from the backend
   const fetchData = async () => {
     try {
@@ -24,10 +18,12 @@ if (saveTerm === "") {
         
         clickButton.addEventListener("click", async function () {
             const response = await fetch("/data/" + item.id, {
-                method: "DELETE"
+                method: "DELETE"               
              });
             li.remove();
         });
+
+        // li.innerHTML = dataInput.value;
 
         li.textContent = item.message;
         
@@ -41,6 +37,12 @@ if (saveTerm === "") {
 
   // Handle form submission to add new data
   saveButton.addEventListener("click", async (event) => {
+
+  if (dataInput.value.trim() === "") {  
+    alert("Please enter a task before adding it.");
+    return;
+  }
+
     event.preventDefault();
     const newData = { message: dataInput.value };
 
