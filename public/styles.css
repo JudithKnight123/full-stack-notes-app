@@ -65,6 +65,8 @@ button {
     cursor: pointer;
 }
 
+li.button {margin-left: 1em;}
+
 input[type="text"] {
     padding: 9px;
     width: 20%;
