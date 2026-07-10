@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const dataInput = document.getElementById("saveTerm");
   const saveButton = document.getElementById("saveButton");
 
-if (dataInput.value.trim() === "") {
+if (saveTerm === "") {
   alert("Please enter a task before adding it.");
   return;
 }
