@@ -64,8 +64,9 @@ button {
     border-radius: 5px;
     cursor: pointer;
 }
-
-li.button {margin-left: 1em;}
+li button {
+    margin-left: 1em;
+}
 
 input[type="text"] {
     padding: 9px;
